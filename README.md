@@ -24,10 +24,7 @@
 ## 📸 Screenshots
 
 ### Dashboard Interface
-![Dashboard](https://via.placeholder.com/800x400/667eea/ffffff?text=Modern+GPS+Dashboard)
-
-### Real-Time Tracking
-![Tracking](https://via.placeholder.com/800x400/764ba2/ffffff?text=Real-Time+GPS+Tracking)
+![Dashboard](https://ibb.co/1fTNVxhB)
 
 ---
 
@@ -379,7 +376,7 @@ Contributions are welcome! Please follow these guidelines:
 ### Development Setup
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/gps-tracker.git
+git clone https://github.com/balirh12/gps-tracker.git
 
 # Install in development mode
 pip install -e .
@@ -402,9 +399,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+- GitHub: [@yourusername](https://github.com/balirh12)
+- Email: hajar.balirh@uir.ac.ma
 
 ---
 
