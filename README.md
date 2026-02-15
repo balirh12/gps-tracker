@@ -107,7 +107,7 @@
 
 #### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/gps-tracker.git
+git clone https://github.com/balirh12/gps-tracker.git
 cd gps-tracker
 ```
 
