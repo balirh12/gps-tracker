@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPS Tracker - Modern Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f1f5f9;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .header .status {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid var(--success);
+            border-radius: 25px;
+            font-weight: 500;
+            animation: pulse 2s infinite;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-card .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Main Content */
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .panel h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Buttons */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.primary {
+            background: var(--primary);
+            border-color: var(--primary-dark);
+        }
+
+        .btn.success {
+            background: var(--success);
+            border-color: #059669;
+        }
+
+        .btn.warning {
+            background: var(--warning);
+            border-color: #d97706;
+        }
+
+        /* Results */
+        .results {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .results::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .results::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .results::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Activity Log */
+        .activity-log {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            animation: slideInRight 0.3s ease;
+        }
+
+        .activity-item .time {
+            opacity: 0.7;
+            font-size: 0.85em;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active {
+            border-bottom-color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .stat-card .value {
+                font-size: 2em;
+            }
+        }
+
+        /* Custom JSON styling */
+        .json-key { color: #fbbf24; }
+        .json-string { color: #34d399; }
+        .json-number { color: #60a5fa; }
+        .json-boolean { color: #f472b6; }
+        .json-null { color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 GPS Tracker Dashboard</h1>
+            <p class="subtitle">Système de suivi GPS en temps réel avec analyse spatiale</p>
+            <div class="status" id="status">🟢 Système Opérationnel</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card" style="animation-delay: 0.1s">
+                <div class="icon">📍</div>
+                <div class="label">Total Points GPS</div>
+                <div class="value" id="totalPoints">---</div>
+            </div>
+            <div class="stat-card" style="animation-delay: 0.2s">
+                <div class="icon">👥</div>
+                <div class="label">Utilisateurs Actifs</div>
+                <div class="value" id="totalUsers">---</div>
+            </div>
+            <div class="stat-card" style="animation-delay: 0.3s">
+                <div class="icon">📊</div>
+                <div class="label">Moyenne / Utilisateur</div>
+                <div class="value" id="avgPoints">---</div>
+            </div>
+            <div class="stat-card" style="animation-delay: 0.4s">
+                <div class="icon">🔄</div>
+                <div class="label">Dernière Sync</div>
+                <div class="value" id="lastSync" style="font-size: 1.2em;">---</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="panel">
+                <h2>🎮 Actions & Requêtes</h2>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="switchTab('basic')">Basique</div>
+                    <div class="tab" onclick="switchTab('spatial')">Spatial</div>
+                    <div class="tab" onclick="switchTab('analytics')">Analytics</div>
+                    <div class="tab" onclick="switchTab('advanced')">Avancé</div>
+                </div>
+
+                <div id="basic" class="tab-content active">
+                    <div class="btn-grid">
+                        <button class="btn" onclick="apiCall('/api/v1/stats')">
+                            📊 Statistiques
+                        </button>
+                        <button class="btn" onclick="apiCall('/api/v1/users')">
+                            👥 Liste Users
+                        </button>
+                        <button class="btn" onclick="apiCall('/api/v1/users/user_1')">
+                            🔍 Détails User
+                        </button>
+                        <button class="btn success" onclick="apiCall('/api/v1/gps/sync', 'POST')">
+                            🔄 Synchroniser
+                        </button>
+                    </div>
+                </div>
+
+                <div id="spatial" class="tab-content">
+                    <div class="btn-grid">
+                        <button class="btn" onclick="apiCall('/api/v1/distance/user_1/user_2')">
+                            📏 Distance Users
+                        </button>
+                        <button class="btn" onclick="apiCall('/api/v1/users/user_1/trajectory')">
+                            🗺️ Trajectoire
+                        </button>
+                        <button class="btn" onclick="nearbyLocations()">
+                            🎯 Locations Proches
+                        </button>
+                        <button class="btn" onclick="checkGeofence()">
+                            🛡️ Geofencing
+                        </button>
+                    </div>
+                </div>
+
+                <div id="analytics" class="tab-content">
+                    <div class="btn-grid">
+                        <button class="btn" onclick="apiCall('/api/v1/analytics/active-users?hours=24')">
+                            👤 Users Actifs 24h
+                        </button>
+                        <button class="btn" onclick="getHeatmap()">
+                            🔥 Heatmap
+                        </button>
+                        <button class="btn" onclick="apiCall('/api/v1/database/status')">
+                            💾 État BDD
+                        </button>
+                        <button class="btn" onclick="apiCall('/health')">
+                            ❤️ Health Check
+                        </button>
+                    </div>
+                </div>
+
+                <div id="advanced" class="tab-content">
+                    <div class="btn-grid">
+                        <button class="btn" onclick="apiCall('/api/v1/users/user_1/locations?limit=10')">
+                            📍 Historique
+                        </button>
+                        <button class="btn warning" onclick="collectGPS()">
+                            ➕ Collecter GPS
+                        </button>
+                        <button class="btn" onclick="bulkCollect()">
+                            📦 Collection Bulk
+                        </button>
+                        <button class="btn" onclick="window.open('http://localhost:8000/docs', '_blank')">
+                            📖 API Docs
+                        </button>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Chargement en cours...</p>
+                </div>
+
+                <div class="results" id="results">
+                    <p style="opacity: 0.5; text-align: center; padding: 40px 0;">
+                        Sélectionnez une action pour voir les résultats...
+                    </p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>📝 Journal d'Activité</h2>
+                <div class="activity-log" id="activityLog">
+                    <!-- Activity items will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        let activityCount = 0;
+
+        // Load initial stats
+        window.onload = () => {
+            loadStats();
+            addActivity('Système initialisé', 'success');
+        };
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // API call
+        async function apiCall(endpoint, method = 'GET', body = null) {
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
+            loading.classList.add('active');
+            results.innerHTML = '';
+            
+            try {
+                const options = {
+                    method: method,
+                    headers: {'Content-Type': 'application/json'}
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                const response = await fetch(`${API_URL}${endpoint}`, options);
+                const data = await response.json();
+                
+                results.innerHTML = syntaxHighlight(JSON.stringify(data, null, 2));
+                addActivity(`${method} ${endpoint}`, response.ok ? 'success' : 'error');
+                
+                // Update stats if it was a stats call
+                if (endpoint === '/api/v1/stats') {
+                    updateStatsCards(data.data);
+                }
+            } catch (error) {
+                results.innerHTML = `<span style="color: #ef4444;">❌ Erreur: ${error.message}</span>\n\n💡 Assurez-vous que l'API est démarrée:\n   python api.py`;
+                addActivity(`Erreur: ${error.message}`, 'error');
+            } finally {
+                loading.classList.remove('active');
+            }
+        }
+
+        // Load stats
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_URL}/api/v1/stats`);
+                const data = await response.json();
+                updateStatsCards(data.data);
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+
+        // Update stats cards
+        function updateStatsCards(data) {
+            if (data.overview) {
+                document.getElementById('totalPoints').textContent = data.overview.total_gps_points;
+                document.getElementById('totalUsers').textContent = data.overview.total_users;
+                document.getElementById('avgPoints').textContent = data.overview.average_points_per_user;
+            }
+            
+            if (data.last_sync && data.last_sync.time) {
+                const time = new Date(data.last_sync.time);
+                document.getElementById('lastSync').textContent = time.toLocaleTimeString();
+            }
+        }
+
+        // Nearby locations
+        async function nearbyLocations() {
+            const body = {
+                latitude: 33.645,
+                longitude: -7.59,
+                radius_meters: 500
+            };
+            await apiCall('/api/v1/locations/nearby', 'POST', body);
+        }
+
+        // Geofence check
+        async function checkGeofence() {
+            const body = {
+                name: "Zone Centre",
+                center_lat: 33.645,
+                center_lon: -7.59,
+                radius_meters: 1000
+            };
+            await apiCall('/api/v1/geofence/check?user_id=user_1', 'POST', body);
+        }
+
+        // Collect GPS
+        async function collectGPS() {
+            const body = {
+                user_id: "demo_user",
+                latitude: 33.6 + Math.random() * 0.01,
+                longitude: -7.59 + Math.random() * 0.01
+            };
+            await apiCall('/api/v1/gps/collect', 'POST', body);
+        }
+
+        // Bulk collect
+        async function bulkCollect() {
+            const points = [];
+            for (let i = 0; i < 5; i++) {
+                points.push({
+                    user_id: "bulk_user",
+                    latitude: 33.6 + Math.random() * 0.01,
+                    longitude: -7.59 + Math.random() * 0.01
+                });
+            }
+            await apiCall('/api/v1/gps/collect/bulk', 'POST', {points});
+        }
+
+        // Heatmap
+        async function getHeatmap() {
+            await apiCall('/api/v1/analytics/heatmap?min_lat=33.64&max_lat=33.65&min_lon=-7.60&max_lon=-7.58');
+        }
+
+        // Activity log
+        function addActivity(message, type = 'info') {
+            const log = document.getElementById('activityLog');
+            const time = new Date().toLocaleTimeString();
+            
+            const item = document.createElement('div');
+            item.className = 'activity-item';
+            item.innerHTML = `
+                <div>${message}</div>
+                <div class="time">${time}</div>
+            `;
+            
+            if (type === 'error') {
+                item.style.borderLeftColor = '#ef4444';
+            } else if (type === 'success') {
+                item.style.borderLeftColor = '#10b981';
+            }
+            
+            log.insertBefore(item, log.firstChild);
+            
+            // Keep only last 20 items
+            while (log.children.length > 20) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        // Syntax highlighting for JSON
+        function syntaxHighlight(json) {
+            json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                var cls = 'json-number';
+                if (/^"/.test(match)) {
+                    if (/:$/.test(match)) {
+                        cls = 'json-key';
+                    } else {
+                        cls = 'json-string';
+                    }
+                } else if (/true|false/.test(match)) {
+                    cls = 'json-boolean';
+                } else if (/null/.test(match)) {
+                    cls = 'json-null';
+                }
+                return '<span class="' + cls + '">' + match + '</span>';
+            });
+        }
+    </script>
+</body>
+</html>

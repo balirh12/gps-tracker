@@ -1,0 +1,20 @@
+# PostgreSQL adapter for Python
+psycopg2-binary==2.9.9
+
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+
+# HTTP and API
+requests==2.31.0
+httpx==0.25.1
+
+# Additional useful packages
+python-dateutil==2.8.2
+
+# For offline SQLite storage (included in Python standard library)
+# sqlite3
+
+# For generating random coordinates  
+# random (standard library)
