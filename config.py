@@ -6,11 +6,11 @@ Contains database connection settings and application parameters.
 # PostgreSQL Database Configuration
 # Update these values according to your PostgreSQL setup
 DB_CONFIG = {
-    'host': 'localhost',
-    'database': 'gps_tracker',
-    'user': 'postgres',
-    'password': '123456789',  # CHANGE THIS!
-    'port': 5432
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'database': os.getenv('DB_NAME', 'gps_tracker'),
+    'user': os.getenv('DB_USER', 'postgres'),
+    'password': os.getenv('DB_PASSWORD', 'changeme'),
+    'port': int(os.getenv('DB_PORT', 5432))
 }
 
 # Local SQLite Database (for offline storage)
