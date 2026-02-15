@@ -402,7 +402,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/balirh12)
+- GitHub: [@balirh12](https://github.com/balirh12)
 - Email: hajar.balirh@uir.ac.ma
 
 ---
