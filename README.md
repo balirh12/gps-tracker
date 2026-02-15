@@ -26,6 +26,8 @@
 ### Dashboard Interface
 ![Dashboard](screenshots/dashboard_1.png)
 
+![Docs](screenshots/api_docs.png)
+
 
 ---
 
