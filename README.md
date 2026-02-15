@@ -24,7 +24,8 @@
 ## 📸 Screenshots
 
 ### Dashboard Interface
-![Dashboard](https://ibb.co/1fTNVxhB)
+![Dashboard](screenshots/dashboard_1.png)
+
 
 ---
 
